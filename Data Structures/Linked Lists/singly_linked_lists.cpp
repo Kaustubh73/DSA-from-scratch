@@ -121,6 +121,84 @@ node * getIntersectionNode(node * headA, node * headB)
     return pA;
 
 }
+
+node * middleNode(node * head)
+{
+    if (head == NULL) return NULL;
+
+    node * slow = head;
+    node * fast = head;
+
+    while ((fast != NULL) && (fast->next != NULL))
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    return slow;
+}
+
+node * reverseList(node * head)
+{
+    node * curr = head;
+    node * prev = NULL;
+
+    while (curr != NULL)
+    {
+        node * temp = curr->next;
+        curr->next = prev;
+
+        prev = curr;
+        curr = temp;
+    }
+    return prev;
+}
+
+node * copyList(node * head)
+{
+    if (head == NULL)
+    {
+        return NULL;
+    }
+    node * newHead = new node(head->data);
+    node * curr = head->next;
+    node * currCopy = newHead;
+    while (curr != NULL)
+    {
+        currCopy->next = new node(curr->data);
+        currCopy = currCopy->next;
+        curr = curr->next;   
+    }
+    return newHead;
+}
+node * sortList(node * head)
+{
+    if (head == NULL)
+        return NULL;
+
+    else if (head->next == NULL)
+    {
+        return head;
+    }
+    else
+    {
+        vector<int> v;
+        node * result = head;
+        while (result != NULL)
+        {
+            v.push_back(result->data);
+            result = result->next;
+        }
+        sort(v.begin(), v.end());
+        result = head;
+        for (int i = 0; i < v.size() ; i++)
+        {
+            result->data = v[i];
+            result = result->next;
+        }
+        return head;
+    }
+}
 int printList(node * head)
 {
     node * curr = head;
@@ -147,10 +225,10 @@ int main(int argc, char * argv[])
     headA = insertBegin(headA, 2);
     headA = insertBegin(headA, 9);
     headA = insertBegin(headA, 8);
-
-    node * result = addTwoNumbers(head, headA);
-    printList(head);
-    printList(headA);
-    printList(result);
+    node * newHead = copyList(head); 
+    node * sorted = sortList(head);
+    printList(newHead);
+    printList(sorted);
+    // cout << result->data;
     return 0;
 }
