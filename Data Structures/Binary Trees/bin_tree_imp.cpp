@@ -209,7 +209,38 @@ void printInorderStack(Node * root)
     return;
 }   
 
+void MorrisTraversal(Node * root)
+{
+    if (root == NULL)
+        return;
+    Node * curr = root;
+    while (curr != NULL)
+    {
+        if (curr->left != NULL)
+        {
+            cout << curr->data << " ";
+            curr = curr->right;
+        }
+        else {
+            Node * pre = curr->left;
+            while (pre->right != NULL && pre->right != curr)
+                pre = pre->right;
+            
+            if (pre->right == NULL)
+            {
+                pre->right = curr;
+                curr = curr->left;
+            }
 
+            else {
+                pre->right = NULL;
+                cout << curr->data << " ";
+                curr = curr->right;
+            }
+        }
+    }
+    return;
+}
 void printPreorder(Node * root)
 {
     if (root == NULL)
