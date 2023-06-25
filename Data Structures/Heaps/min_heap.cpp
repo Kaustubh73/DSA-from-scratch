@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class MaxHeap {
+class MinHeap {
 
     public: 
         int * arr;
@@ -10,9 +10,9 @@ class MaxHeap {
 
         int heapSize;
 
-        MaxHeap(int maxSize);
+        MinHeap(int maxSize);
 
-        void MaxHeapify(int i);
+        void MinHeapify(int i);
 
         int parent(int i)
         {
@@ -29,9 +29,9 @@ class MaxHeap {
             return (2 * i + 2);
         }
 
-        int removeMax();
+        int removeMin();
 
-        void increaseKey(int i, int newVal);
+        void decreaseKey(int i, int newVal);
 
         int getMax()
         {
@@ -49,7 +49,7 @@ class MaxHeap {
 };
 
 
-MaxHeap::MaxHeap(int totSize)
+MinHeap::MinHeap(int totSize)
 {
     heapSize = 0;
     maxSize = totSize;
@@ -58,7 +58,7 @@ MaxHeap::MaxHeap(int totSize)
     // arr[heapSize] = {32,324, 23, 12, 943};
 }
 
-void MaxHeap::insertKey(int x)
+void MinHeap::insertKey(int x)
 {
     if (heapSize == maxSize)
     {
@@ -70,23 +70,23 @@ void MaxHeap::insertKey(int x)
     int i = heapSize - 1;
     arr[i] = x;
 
-    while (i != 0 && arr[parent(i)] < arr[i])
+    while (i != 0 && arr[parent(i)] > arr[i])
     {
         swap(arr[i], arr[parent(i)]);
         i = parent(i);
     }
 }
 
-void MaxHeap::increaseKey(int i, int newVal)
+void MinHeap::decreaseKey(int i, int newVal)
 {
     arr[i] = newVal;
-    while (i != 0 && arr[parent(i)] < arr[i]) {
+    while (i != 0 && arr[parent(i)] > arr[i]) {
         swap(arr[i], arr[parent(i)]);
         i = parent(i);
     }
 }
 
-int MaxHeap::removeMax()
+int MinHeap::removeMin()
 {
     if (heapSize <= 0)
     {
@@ -102,32 +102,32 @@ int MaxHeap::removeMax()
     arr[0] = arr[heapSize - 1];
     heapSize--;
 
-    MaxHeapify(0);
+    MinHeapify(0);
     return root;
 }
 
-void MaxHeap::deleteKey(int i)
+void MinHeap::deleteKey(int i)
 {
-    increaseKey(i, INT_MAX);
-    removeMax();
+    decreaseKey(i, INT_MIN);
+    removeMin();
 }
-void MaxHeap::MaxHeapify(int i)
+void MinHeap::MinHeapify(int i)
 {
     int l = lChild(i);
     int r = rChild(i);
-    int largest = i;
-    if (l < heapSize && arr[l] > arr[largest])
+    int smallest = i;
+    if (l < heapSize && arr[l] < arr[smallest])
     {
-        largest = l;
+        smallest = l;
     }
-    if (r < heapSize && arr[r] > arr[largest])
+    if (r < heapSize && arr[r] < arr[smallest])
     {
-        largest = r;
+        smallest = r;
     }
-    if (largest != i)
+    if (smallest != i)
     {
-        swap(arr[i], arr[largest]);
-        MaxHeapify(largest);
+        swap(arr[i], arr[smallest]);
+        MinHeapify(smallest);
     }
 
 }
@@ -136,21 +136,21 @@ void max_heapify (int Arr[], int i, int N)
 {
         int left = 2*i; //left child
         int right = 2*i +1;   
-        int largest = i;        //right child
-        if(left< N and Arr[left] > Arr[i] )
-              largest = left;
+        int smallest = i;        //right child
+        if(left< N and Arr[left] < Arr[i] )
+              smallest = left;
         else
-             largest = i;
-        if(right < N and Arr[right] > Arr[largest] )
-            largest = right;
-        if(largest != i )
+             smallest = i;
+        if(right < N and Arr[right] < Arr[smallest] )
+            smallest = right;
+        if(smallest != i )
         {
-            swap (Arr[i] , Arr[largest]);
-            max_heapify (Arr, largest,N);
+            swap (Arr[i] , Arr[smallest]);
+            max_heapify (Arr, smallest,N);
         } 
 }
 
-// void build_maxheap (int Arr[ ], int N)
+// void build_MinHeap (int Arr[ ], int N)
 // {
 //     for(int i = N/2 ; i >= 1 ; i-- )
 //     {
@@ -159,7 +159,7 @@ void max_heapify (int Arr[], int i, int N)
 // }
 int main()
 {
-    MaxHeap h(15); 
+    MinHeap h(15); 
 
     int k, i, n = 6, arr[5] = {32, 12, 3, 54, 43};
     // h.arr;
@@ -176,7 +176,7 @@ int main()
     }
     cout << endl;
 
-    h.increaseKey(3, 16);
+    h.decreaseKey(3, 16);
     for (int i =0  ; i < h.heapSize ; i++)
     {
         cout << h.arr[i] << " ";
