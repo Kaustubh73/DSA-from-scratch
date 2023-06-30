@@ -73,10 +73,6 @@ int main(int argc, char * argv[])
 	cin.tie(NULL);
     vector<int> arr = {20,5, 7, 25};
     int x = 7;
-    deleteElem(arr, 4, x);
-    for (int i = 0 ; i < 3 ; i++)
-    {
-        cout << arr[i] << endl;
-    }
+    cout << bin_search(arr, x, 4) << endl;
     return 0;
 }
