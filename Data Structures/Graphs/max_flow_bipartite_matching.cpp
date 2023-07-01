@@ -17,8 +17,8 @@ class Graph {
             flow.resize(n, vector<int>(n,0));
         }
 
-        void addEdge(int u, int v, int c) {
-            capacity[u][v] = c;
+        void addEdge(int u, int v, int w) {
+            capacity[u][v] = w;
         }
 
         int fordFulkerson(int source, int sink) {
@@ -44,19 +44,6 @@ class Graph {
             return maxFlow;
         }
     
-        void findMinCut(int source) {
-            vector<bool> visited(n, false);
-            dfs(source, visited);
-
-            for (int i = 0 ; i < n ; i++)
-            {
-                for (int j = 0; j < n ; j++)
-                {
-                    if (visited[i] && !visited[j] && flow[i][j])
-                        cout << i << " - " << j << endl;
-                }
-            }
-        }
     private:
         bool bfs(int source, int sink, vector<int>& parent) {
             vector<bool> visited(n, false);
@@ -83,44 +70,36 @@ class Graph {
 
             return visited[sink];
         }
-
-        void dfs(int u, vector<bool>& visited) {
-            visited[u] = true;
-
-            for (int v = 0 ; v < n; ++v)
-            {
-                if (!visited[v] && capacity[u][v] > flow[u][v]) {
-                    dfs(v, visited);
-                }
-            }
-        }
 };
 
 int main() {
 
-    Graph graph(6);
+    int n = 6;
+    int m = 4; // Vertices in first bipartite set
 
-    // Add edges to the graph
-    graph.addEdge(0, 1, 16);
-    graph.addEdge(0, 2, 13);
-    graph.addEdge(1, 2, 10);
-    graph.addEdge(1, 3, 12);
-    graph.addEdge(2, 1, 4);
-    graph.addEdge(2, 4, 14);
-    graph.addEdge(3, 2, 9);
-    graph.addEdge(3, 5, 20);
-    graph.addEdge(4, 3, 7);
-    graph.addEdge(4, 5, 4);
-
+    Graph graph(n + 2);
     int source = 0;
-    int sink = 5;
+    int sink = n + 1;
+
+    for (int i = 1 ; i <= m ; ++i)
+    {
+        graph.addEdge(source, i, 1);
+    }
+
+    for (int i = m + 1; i <= n ; ++i)
+    {
+        graph.addEdge(i, sink, 1);
+    }
+
+    graph.addEdge(1, m + 1, 1);
+    graph.addEdge(2, m + 1, 1);
+    graph.addEdge(2, m + 2, 1);
+    graph.addEdge(3, m + 2, 1);
+    graph.addEdge(4, m + 2, 1);
 
     // Find the maximum flow using the Ford-Fulkerson algorithm
     int maxFlow = graph.fordFulkerson(source, sink);
 
-    cout << "Maximum Flow: " << maxFlow << endl;
-
-    graph.findMinCut(0);
-    return 0;
-
+    cout << "Maximum Bipartite Matching : " << maxFlow << endl;
+    
 }
