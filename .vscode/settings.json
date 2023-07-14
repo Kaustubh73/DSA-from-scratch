@@ -6,7 +6,8 @@
         "deque": "cpp",
         "string": "cpp",
         "vector": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "tuple": "cpp"
     },
     "git.ignoreLimitWarning": true
 }
